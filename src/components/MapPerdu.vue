@@ -46,7 +46,7 @@ export default {
     return {
       zoom: 6,
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-      center: [45.20,	3.20]
+      center: [46.8,2.4350357]
     };
   },
   methods:{
