@@ -1,6 +1,6 @@
 <template>  
 <div>
-    <h1>Objet Perdu en fonction des gares</h1>
+    <h1>Nombre d'objet Perdu en fonction des gares</h1>
   <div class="body">
    <l-map :zoom="zoom" :center="center">
       <l-tile-layer :url="url"></l-tile-layer>
@@ -10,14 +10,25 @@
         :radius="parseInt(station.Perdu)"
         v-bind:key="index"
         :color="getColor(station.CODE_UIC)"
-      ></l-circle> 
+      >
+        <l-tooltip>
+          <p>
+            <b>Gare</b> : {{station.LIBELLE}}
+          </p>
+
+          <p>
+            <b>Nombre d'objet perdu</b> : {{station.Perdu}}
+          </p>
+
+        </l-tooltip>
+      </l-circle> 
     </l-map>
   </div>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LCircle } from "vue2-leaflet";
+import { LMap, LTileLayer, LCircle, LTooltip } from "vue2-leaflet";
 export default {
   name: 'MapPerdu',
   props: {
@@ -28,7 +39,8 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LCircle
+    LCircle,
+    LTooltip
   }, 
   data() {
     return {

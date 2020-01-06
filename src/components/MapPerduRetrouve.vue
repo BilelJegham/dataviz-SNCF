@@ -1,23 +1,39 @@
 <template>
   <div>
-    <h1>Objet PerduRestituer en fonction des gares</h1>
+    <h1>Pourcentage de restitution des objets perdus</h1>
   <div class="body">
    <l-map :zoom="zoom" :center="center">
       <l-tile-layer :url="url"></l-tile-layer>
       <l-circle 
         v-for="(station, index) in data"
         :lat-lng="[station.lat, station.lon]"
-        :radius="MapFre(station.PerduRestituer)"
+        :radius="parseFloat(station.PerduRestituer)*100"
         v-bind:key="index"
         :color="getColor(station.CODE_UIC)"
-      ></l-circle> 
+      >
+        <l-tooltip>
+          <p>
+            <b>Gare</b> : {{station.LIBELLE}}
+          </p>
+          <p>
+            <b>Nombre d'objet perdu</b> : {{station.Perdu}}
+          </p>
+
+          <p>
+            <b>Nombre d'objet restitué</b> : {{station.Restituer}}
+          </p>
+          <p>
+            <b>Ratio</b> : {{ new Intl.NumberFormat('fr-FR', { style: 'percent' }).format(parseFloat(station.PerduRestituer))}}
+          </p>
+        </l-tooltip>
+      </l-circle> 
     </l-map>
   </div>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LCircle } from "vue2-leaflet";
+import { LMap, LTileLayer, LCircle, LTooltip } from "vue2-leaflet";
 export default {
   name: 'MapPerduRetrouve',
   props: {
@@ -27,7 +43,8 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LCircle
+    LCircle,
+    LTooltip
   }, 
   data() {
     return {
