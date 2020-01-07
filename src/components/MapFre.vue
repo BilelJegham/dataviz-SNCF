@@ -7,7 +7,7 @@
       <l-circle 
         v-for="(station, index) in data"
         :lat-lng="[station.lat, station.lon]"
-        :radius="parseFloat(station.ratioPV)*1000"
+        :radius="(parseInt(station.Perdu)/parseInt(station.voyageur))*100000"
         v-bind:key="index"
         :color="getColor(station.CODE_UIC)"
       >
@@ -23,7 +23,7 @@
           </p>
 
           <p>
-            <b>Ratio</b> : {{ new Intl.NumberFormat('fr-FR', { style: 'percent' }).format(parseFloat(station.ratioPV))}}
+            <b>Ratio</b> : {{ parseInt(station.ratioPV)/parseInt(station.voyageur)}}
           </p>
         </l-tooltip>
       </l-circle> 
@@ -89,6 +89,16 @@ export default {
         return regions[r["Région SNCF"]]
       else  
         return "white"
+    },
+    ratioFloat(val){
+      if(val.match(/E-0/g)){
+        let l=  val.replace(',','.')
+        return parseFloat(l.split("E-")[0])*(10**- parseInt(l.split("E-")[1]));
+        
+      }else{
+        
+        return parseFloat(val);
+      }
     }
 
   

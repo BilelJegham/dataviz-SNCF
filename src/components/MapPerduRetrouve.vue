@@ -7,7 +7,7 @@
       <l-circle 
         v-for="(station, index) in data"
         :lat-lng="[station.lat, station.lon]"
-        :radius="parseFloat(station.PerduRestituer)*100"
+        :radius="(ratio(station))*10000"
         v-bind:key="index"
         :color="getColor(station.CODE_UIC)"
       >
@@ -18,12 +18,15 @@
           <p>
             <b>Nombre d'objet perdu</b> : {{station.Perdu}}
           </p>
-
-          <p>
+    
+          <p v-if="parseInt(station.Restituer) <= parseInt(station.Perdu)">
             <b>Nombre d'objet restitué</b> : {{station.Restituer}}
           </p>
+           <p v-if="parseInt(station.Restituer) > parseInt(station.Perdu)">
+            <b>Nombre d'objet restitué</b> : {{station.Perdu}}
+          </p>
           <p>
-            <b>Ratio</b> : {{ new Intl.NumberFormat('fr-FR', { style: 'percent' }).format(parseFloat(station.PerduRestituer))}}
+            <b>Ratio</b> : {{ new Intl.NumberFormat('fr-FR', { style: 'percent', minimumSignificantDigits:6 }).format(parseFloat(station.PerduRestituer))}}
           </p>
         </l-tooltip>
       </l-circle> 
@@ -54,6 +57,12 @@ export default {
     };
   },
   methods:{
+    ratio(station){
+      if (parseInt(station.Restituer) > parseInt(station.Perdu))
+        return 1
+      else
+        return (parseInt(station.Restituer)/parseInt(station.Perdu))
+    },
     getColor(codeuic){
       let regions = {
         "REGION ALPES":"#E69F00",
