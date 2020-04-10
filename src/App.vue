@@ -13,7 +13,7 @@
       </p>
     </div>
     <div class="footer">
-      <p>Réalisés par Bilel Jegham et Corentin Goinard | Source : <a href="https://data.sncf.com/">https://data.sncf.com/</a></p>
+      <p>Réalisé par Bilel Jegham et Corentin Goinard | Source : <a href="https://data.sncf.com/">https://data.sncf.com/</a></p>
     </div>
   </div>
 </template>
